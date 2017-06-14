@@ -4,14 +4,13 @@
 #include <DallasTemperature.h> // temperature
 
 const int BAUD_RATE = 9600;
-
-const int WINDOW_SIZE = 10;
-
+/*
 const int SERVO_NUM = 4;
 const int SERVO_PULSE_WIDTH_MIN = 600;
 const int SERVO_PULSE_WIDTH_MAX = 2400;
 const int SERVO_PIN[SERVO_NUM] = {9, 10, 11, 6};
 Servo servo[SERVO_NUM];
+*/
 
 const int TEMPERATURE_ONE_WIRE_BUS = 2;
 const int TEMPERATURE_DELAY = 50000;
@@ -32,27 +31,34 @@ const int LUMINANCE_PIN = A1;
 const float LUMINANCE_THRESHOLD = 10.0;
 float average_luminance = 30.0;
 
-const int FAN_PIN = ;
-const int LIGHT_PIN = ;
-const int PUMP_PIN = ;
+const int FAN_PIN = 7;
+const int LIGHT_PIN = 4;
+const int PUMP_PIN = 8;
 
 void servo_init() {
     // DONE
-    for (int i = 0; i < SERVO_NUM; ++i) {
+    /*for (int i = 0; i < SERVO_NUM; ++i) {
         servo[i].attach(SERVO_PIN[i], SERVO_PULSE_WIDTH_MIN, SERVO_PULSE_WIDTH_MAX);
-    }
+    }*/
     return;
 }
 
 void moisture_init() {
     // DONE
     pinMode(MOISTURE_PIN, INPUT);
+    pinMode(PUMP_PIN, OUTPUT);
     return;
 }
 
 void temperature_init() {
     // DONE
     temperature_sensor.begin();
+    pinMode(FAN_PIN, OUTPUT);
+    return;
+}
+
+void luminance_init() {
+    pinMode(LIGHT_PIN, OUTPUT);
     return;
 }
 
@@ -162,9 +168,10 @@ void actuate_pump(bool turn_on) {
 void setup() {
     Serial.begin(BAUD_RATE);
 
-    servo_init();
+    //servo_init();
     moisture_init();
     temperature_init();
+    luminance_init();
     return;
 }
 
@@ -172,7 +179,7 @@ void loop() {
     sense_temperature();
     sense_moisture();
     sense_luminance();
-    delay(1500);
+    delay(100);
     return;
 }
 
