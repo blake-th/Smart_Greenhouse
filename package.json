@@ -18,6 +18,8 @@
   "homepage": "https://github.com/blake-th/eslab_project#readme",
   "dependencies": {
     "express": "^4.15.3",
-    "express-generator": "^4.15.0"
+    "express-generator": "^4.15.0",
+    "t2-cli": "^0.1.4",
+    "tessel-av": "^0.19.0"
   }
 }
