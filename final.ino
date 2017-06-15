@@ -71,7 +71,7 @@ void luminance_init() {
 }
 
 
-void sense_moisture() {
+int sense_moisture() {
     int sensor_value = analogRead(MOISTURE_PIN);
     average_moisture = (9 * average_moisture + sensor_value) / 10;
     if (average_moisture < MOISTURE_THRESHOLD) {
@@ -86,10 +86,10 @@ void sense_moisture() {
         actuate_pump(true);
     }
     //Serial.println(average_moisture);
-    return;
+    return average_moisture;
 }
 
-void sense_temperature() {
+float sense_temperature() {
     temperature_sensor.requestTemperatures();
     float sensor_value = temperature_sensor.getTempCByIndex(0);
     average_temperature = 0.9 * average_temperature + 0.1 * sensor_value;
@@ -105,10 +105,10 @@ void sense_temperature() {
         actuate_fan(true);
     }
     //Serial.println(average_temperature);
-    return;
+    return average_temperature;
 }
 
-void sense_luminance() {
+float sense_luminance() {
     float sensed_vout = analogRead(LUMINANCE_PIN) * (3.0 / 1023.0);
     float sensor_value = FmultiMap(sensed_vout, LUMINANCE_VOUT, LUMINANCE_LUX, LUMINANCE_ARRAY_LENGTH);
     average_luminance = 0.9 * average_luminance + 0.1 * sensor_value;
@@ -124,7 +124,7 @@ void sense_luminance() {
         actuate_light(false);
     }
     //Serial.println(average_luminance);
-    return;
+    return average_luminance;
 }
 
 
@@ -185,14 +185,11 @@ void setup() {
 
 void loop() {
     Serial.print("T ");
-    sense_temperature();
-    Serial.print(average_temperature);
+    Serial.print(sense_temperature());
     Serial.print(" M ");
-    sense_moisture();
-    Serial.print(average_moisture);
+    Serial.print(sense_moisture());
     Serial.print(" L ");
-    sense_luminance();
-    Serial.print(average_luminance);
+    Serial.print(sense_luminance());
     Serial.print('\n');
     
     delay(1000);
