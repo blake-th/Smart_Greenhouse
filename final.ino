@@ -12,6 +12,9 @@ const int SERVO_PIN[SERVO_NUM] = {9, 10, 11, 6};
 Servo servo[SERVO_NUM];
 */
 
+const int SERIAL_BUFFER_SIZE = 13;
+byte serial_buffer[SERIAL_BUFFER_SIZE];
+
 const int TEMPERATURE_ONE_WIRE_BUS = 2;
 const int TEMPERATURE_DELAY = 50000;
 const float TEMPERATURE_THRESHOLD = 28.0;
@@ -40,6 +43,11 @@ void servo_init() {
     /*for (int i = 0; i < SERVO_NUM; ++i) {
         servo[i].attach(SERVO_PIN[i], SERVO_PULSE_WIDTH_MIN, SERVO_PULSE_WIDTH_MAX);
     }*/
+    return;
+}
+
+void communiaction_init() {
+   
     return;
 }
 
