@@ -43,8 +43,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.get_seneor_value = function(temperature, moisture, luminance) {
-    index.get_seneor_value(temperature, moisture, luminance);
+app.get_sensor_value = function(temperature, moisture, luminance) {
+    index.get_sensor_value(temperature, moisture, luminance);
 };
 
 module.exports = app;

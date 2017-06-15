@@ -77,15 +77,15 @@ void sense_moisture() {
     if (average_moisture < MOISTURE_THRESHOLD) {
         // TODO
         // wet
-        Serial.print("wet: ");
+        //Serial.print("wet: ");
         actuate_pump(false);
     } else {
         // TODO
         // dry
-        Serial.print("dry: ");
+        //Serial.print("dry: ");
         actuate_pump(true);
     }
-    Serial.println(average_moisture);
+    //Serial.println(average_moisture);
     return;
 }
 
@@ -96,15 +96,15 @@ void sense_temperature() {
     if (average_temperature < TEMPERATURE_THRESHOLD) {
         // TODO
         // cold
-        Serial.print("cold: ");
+        //Serial.print("cold: ");
         actuate_fan(false);
     } else {
         // TODO
         // HOT
-        Serial.print("hot: ");
+        //Serial.print("hot: ");
         actuate_fan(true);
     }
-    Serial.println(average_temperature);
+    //Serial.println(average_temperature);
     return;
 }
 
@@ -115,15 +115,15 @@ void sense_luminance() {
     if (average_luminance < LUMINANCE_THRESHOLD) {
         // TODO
         // dark
-        Serial.print("dark: ");
+        //Serial.print("dark: ");
         actuate_light(true);
     } else {
         // TODO
         // bright
-        Serial.print("bright: ");
+        //Serial.print("bright: ");
         actuate_light(false);
     }
-    Serial.println(average_luminance);
+    //Serial.println(average_luminance);
     return;
 }
 
@@ -184,10 +184,18 @@ void setup() {
 }
 
 void loop() {
+    Serial.print("T ");
     sense_temperature();
+    Serial.print(average_temperature);
+    Serial.print(" M ");
     sense_moisture();
+    Serial.print(average_moisture);
+    Serial.print(" L ");
     sense_luminance();
-    delay(100);
+    Serial.print(average_luminance);
+    Serial.print('\n');
+    
+    delay(1000);
     return;
 }
 

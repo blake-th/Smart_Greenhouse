@@ -40,13 +40,25 @@ var rl = readline.createInterface({
       terminal: false
 });
 
+//const UPDATE_INTERVAL = 1000;
+//var temperature = 32;
+//var moisture = 900;
+//var luminance = 60;
+
 rl.on('line', function (line) {
     var [T, t, M, m, L, l] = line.split(' ');    
     console.log('T:', parseFloat(t), 'M:', parseFloat(m), 'L:', parseFloat(l));
-    app.get_sensor_value(t, m, l);
+    app.get_sensor_value(parseFloat(t), parseFloat(m), parseFloat(l));
+    //temperature = t;
+    //moisture = m;
+    //luminance = l;
 });
 
-
+/*
+setInterval(function() {
+  app.get_sensor_value(temperature, moisture, luminance);
+}, UPDATE_INTERVAL);
+*/
 
 /* READ LINE */
 
