@@ -14,7 +14,7 @@ Servo servo[SERVO_NUM];
 
 const int TEMPERATURE_ONE_WIRE_BUS = 2;
 const int TEMPERATURE_DELAY = 50000;
-const float TEMPERATURE_THRESHOLD = 31.0;
+const float TEMPERATURE_THRESHOLD = 28.0;
 float average_temperature = 26.0;
 OneWire temperature_one_wire(TEMPERATURE_ONE_WIRE_BUS);
 DallasTemperature temperature_sensor(&temperature_one_wire);
