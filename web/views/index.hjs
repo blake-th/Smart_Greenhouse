@@ -34,7 +34,11 @@
                 </tr>
             </tbody>
         </table>
-
+        <div class="col-sm-12">
+            <div class="embed-responsive embed-responsive-16by9">
+                <img src="images/greenhouse.JPG" style="width: 480px;height: 360px;"></img>
+            </div>
+        </div>
 
     </div>
 

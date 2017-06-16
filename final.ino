@@ -4,13 +4,14 @@
 #include <DallasTemperature.h> // temperature
 
 const int BAUD_RATE = 9600;
-/*
-const int SERVO_NUM = 4;
+
+const int SERVO_NUM = 2;
 const int SERVO_PULSE_WIDTH_MIN = 600;
 const int SERVO_PULSE_WIDTH_MAX = 2400;
-const int SERVO_PIN[SERVO_NUM] = {9, 10, 11, 6};
+const int SERVO_PIN[SERVO_NUM] = {9, 10};
 Servo servo[SERVO_NUM];
-*/
+int roof_state = 0;
+
 
 const int SERIAL_BUFFER_SIZE = 13;
 byte serial_buffer[SERIAL_BUFFER_SIZE];
@@ -40,14 +41,35 @@ const int PUMP_PIN = 8;
 
 void servo_init() {
     // DONE
-    /*for (int i = 0; i < SERVO_NUM; ++i) {
+    for (int i = 0; i < SERVO_NUM; ++i) {
         servo[i].attach(SERVO_PIN[i], SERVO_PULSE_WIDTH_MIN, SERVO_PULSE_WIDTH_MAX);
-    }*/
+    }
+
+    return;
+}
+
+void check_roof() {
+    bool change;
+    if (Serial.available() > 0) {
+        int new_state = Serial.read();
+        change = new_state == roof_state;
+        roof_state = new_state;
+    } else {
+
+    }
+
+    if (change) {
+        for (int i = 0; i < SERVO_NUM; ++i) {
+            servo[i].write(roof_state);
+        }
+    } else {
+
+    }
     return;
 }
 
 void communiaction_init() {
-   
+    Serial.begin(BAUD_RATE);
     return;
 }
 
@@ -172,18 +194,7 @@ void actuate_pump(bool turn_on) {
     return;
 }
 
-
-void setup() {
-    Serial.begin(BAUD_RATE);
-
-    //servo_init();
-    moisture_init();
-    temperature_init();
-    luminance_init();
-    return;
-}
-
-void loop() {
+void send_sensor_value() {
     Serial.print("T ");
     Serial.print(sense_temperature());
     Serial.print(" M ");
@@ -191,7 +202,21 @@ void loop() {
     Serial.print(" L ");
     Serial.print(sense_luminance());
     Serial.print('\n');
-    
+    return;
+}
+
+void setup() {
+    communiaction_init();
+    servo_init();
+    moisture_init();
+    temperature_init();
+    luminance_init();
+    return;
+}
+
+void loop() {
+    check_roof();
+    send_sensor_value();
     delay(1000);
     return;
 }
