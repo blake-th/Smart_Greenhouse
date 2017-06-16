@@ -8,7 +8,7 @@ const int BAUD_RATE = 9600;
 const int SERVO_NUM = 2;
 const int SERVO_PULSE_WIDTH_MIN = 600;
 const int SERVO_PULSE_WIDTH_MAX = 2400;
-const int SERVO_PIN[SERVO_NUM] = {9, 10};
+const int SERVO_PIN[SERVO_NUM] = {10, 11};
 Servo servo[SERVO_NUM];
 char roof_state = 'c';
 
@@ -45,6 +45,9 @@ void servo_init() {
         servo[i].attach(SERVO_PIN[i], SERVO_PULSE_WIDTH_MIN, SERVO_PULSE_WIDTH_MAX);
     }
 
+    servo[0].write(0);
+    servo[1].write(180);
+
     return;
 }
 
@@ -53,7 +56,7 @@ void check_roof() {
     String buf;
     if (Serial.available() > 0) {
         buf = Serial.readString();
-        change = buf[0] == roof_state;
+        change = buf[0] != roof_state;
         roof_state = buf[0];
     } else {
 
@@ -61,13 +64,11 @@ void check_roof() {
 
     if (change) {
         if (roof_state == 'c') {
-            for (int i = 0; i < SERVO_NUM; ++i) {
-                servo[i].write(0);
-            }
-        } else {
-            for (int i = 0; i < SERVO_NUM; ++i) {
-                servo[i].write(90);
-            }
+            servo[0].write(0);
+            servo[1].write(180);
+        } else if (roof_state == 'o') {
+            servo[0].write(90);
+            servo[1].write(90);
         }
     } else {
 
@@ -220,13 +221,14 @@ void setup() {
     moisture_init();
     temperature_init();
     luminance_init();
+    delay(10000);
     return;
 }
 
 void loop() {
     check_roof();
     send_sensor_value();
-    delay(1000);
+    delay(500);
     return;
 }
 

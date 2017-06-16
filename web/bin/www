@@ -47,7 +47,7 @@ var rl = readline.createInterface({
 
 rl.on('line', function (line) {
     var [T, t, M, m, L, l] = line.split(' ');    
-    console.log('T:', parseFloat(t), 'M:', parseFloat(m), 'L:', parseFloat(l));
+    console.log(T, ':', parseFloat(t), 'M:', parseFloat(m), 'L:', parseFloat(l));
     app.get_sensor_value(parseFloat(t), parseFloat(m), parseFloat(l));
     //temperature = t;
     //moisture = m;
