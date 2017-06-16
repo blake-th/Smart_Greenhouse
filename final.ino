@@ -10,7 +10,7 @@ const int SERVO_PULSE_WIDTH_MIN = 600;
 const int SERVO_PULSE_WIDTH_MAX = 2400;
 const int SERVO_PIN[SERVO_NUM] = {9, 10};
 Servo servo[SERVO_NUM];
-int roof_state = 0;
+char roof_state = 'c';
 
 
 const int SERIAL_BUFFER_SIZE = 13;
@@ -50,21 +50,30 @@ void servo_init() {
 
 void check_roof() {
     bool change;
+    String buf;
     if (Serial.available() > 0) {
-        int new_state = Serial.read();
-        change = new_state == roof_state;
-        roof_state = new_state;
+        buf = Serial.readString();
+        change = buf[0] == roof_state;
+        roof_state = buf[0];
     } else {
 
     }
 
     if (change) {
-        for (int i = 0; i < SERVO_NUM; ++i) {
-            servo[i].write(roof_state);
+        if (roof_state == 'c') {
+            for (int i = 0; i < SERVO_NUM; ++i) {
+                servo[i].write(0);
+            }
+        } else {
+            for (int i = 0; i < SERVO_NUM; ++i) {
+                servo[i].write(90);
+            }
         }
     } else {
 
     }
+
+    //Serial.print(roof_state);
     return;
 }
 
